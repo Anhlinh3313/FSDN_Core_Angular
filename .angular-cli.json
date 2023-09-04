@@ -1,0 +1,111 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "general-module"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.app.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "app",
+      "styles": [
+        "../node_modules/bootstrap/dist/css/bootstrap.css",
+        "../node_modules/font-awesome/css/font-awesome.css",
+        "../node_modules/animate.css/animate.min.css",
+        "../node_modules/icheck/skins/square/green.css",
+        "../node_modules/footable/css/footable.core.min.css",
+        "../node_modules/clockpicker/src/clockpicker.css",
+        "../node_modules/dropzone/dist/min/dropzone.min.css",
+        "../node_modules/primeng/resources/primeng.min.css",
+        "../node_modules/primeng/resources/themes/bootstrap/theme.css",
+        "../node_modules/jasny-bootstrap/dist/css/jasny-bootstrap.min.css",
+        "../node_modules/@swimlane/ngx-datatable/release/index.css",
+        "assets/styles/dependencies/ngx-datatable/material.css",
+        "assets/styles/dependencies/ngx-datatable/bootstrap.scss",
+        "../node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
+        "../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
+        "../node_modules/froala-editor/css/froala_style.min.css",
+        "style.scss",
+        "../node_modules/primeng/resources/themes/omega/theme.css"
+      ],
+      "scripts": [
+        "../node_modules/jquery/dist/jquery.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "../node_modules/metismenu/dist/metisMenu.js",
+        "../node_modules/jquery-slimscroll/jquery.slimscroll.min.js",
+        "../src/assets/js/inspinia.js",
+        "../node_modules/icheck/icheck.min.js",
+        "../node_modules/footable/dist/footable.all.min.js",
+        "../node_modules/clockpicker/dist/bootstrap-clockpicker.min.js",
+        "../node_modules/clockpicker/src/clockpicker.js",
+        "../node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
+        "../node_modules/froala-editor/js/froala_editor.pkgd.min.js"
+      ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "src/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "src/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "component": {
+      "spec": false,
+      "inlineStyle": true,
+      "inlineTemplate": false
+    },
+    "directive": {
+      "spec": false
+    },
+    "class": {
+      "spec": false
+    },
+    "guard": {
+      "spec": false
+    },
+    "module": {
+      "spec": false
+    },
+    "pipe": {
+      "spec": false
+    },
+    "service": {
+      "spec": false
+    } 
+  }
+}

@@ -1,0 +1,148 @@
+<div class="row">
+  <div class="col-lg-12">
+    <ol class="ibox-title breadcrumb">
+      <li>
+        <a>{{parentPage}}</a>
+      </li>
+      <li class="active">
+        <strong>{{currentPage}}</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>{{currentPage}}</h5>
+        <div class="ibox-tools">
+          <p-header>
+            <div>
+              <button type="button" class="btn btn-success" (click)="refresh()">
+                <i class="fa fa-refresh"></i>&nbsp;Refresh
+              </button>
+            </div>
+          </p-header>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-sm-5">
+            <a *ngIf="isAdd" class="btn btn-primary" (click)="openModel(template)">
+              <i class="fa fa-file-o"></i> Tạo mới</a>
+          </div>
+          <div class="col-sm-4">
+          </div>
+          <div class="col-sm-3">
+            <div class="input-group pull-right">
+              <input #filterGb type="text" class="input-sm form-control" [(ngModel)]="txtFilterGb" placeholder="Nhập chuỗi cần tìm ..." (input)="dt.filterGlobal($event.target.value, 'contains')"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-sm-12">
+            <div>
+              <p-table #dt [value]="listData" [responsive]="true" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10, 20, 50, 100, 500]"
+                [lazy]="true" (onLazyLoad)="loadLazy($event)" sortField="name" [totalRecords]="totalRecords">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th pSortableColumn="code">
+                      Mã
+                      <p-sortIcon field="code"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="name">
+                      Tên
+                      <p-sortIcon field="name"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="createdWhen">
+                      Ngày tạo
+                      <p-sortIcon field="createdWhen"></p-sortIcon>
+                    </th>
+                    <th style="width: 118px"></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData>
+                  <tr>
+                    <td>{{rowData.code}}</td>
+                    <td>{{rowData.name}}</td>
+                    <td>{{rowData.createdWhen | date:'dd/MM/yyyy'}}</td>
+                    <td>
+                      <button type="button" class="btn btn-info" (click)="openModel(template, rowData)">
+                        <i class="fa fa-pencil" aria-hidden="true"></i> Sửa
+                      </button>
+                      <button type="button" class="btn btn-warning" (click)="openDeleteModel(templateDelete, rowData)">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i> Xóa
+                      </button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="3">
+                      Không tìm thấy dữ liệu
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Start Modal-->
+<ng-template #template>
+  <div (keydown)="keyDownFunction($event)">
+    <div class="modal-header" style="padding: 5px; text-align:left;">
+      <button type="button" class="close" data-dismiss="modal" style="margin:3px 10px 0 0;" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h5 class="modal-title" style="font-size:20px">{{modalTitle}}</h5>
+    </div>
+    <div class="modal-body" style="overflow:hidden;">
+      <div class="col-md-12 no-padding">
+        <div class="form-group">
+          <label>Mã</label>
+          <input type="text" placeholder="Nhập mã" class="input-sm form-control" [(ngModel)]="dataUpdate.code" focus="true" />
+        </div>
+        <div class="form-group">
+          <label>Tên</label>
+          <input type="text" placeholder="Nhập tên" class="input-sm form-control" [(ngModel)]="dataUpdate.name" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-white" data-dismiss="modal" (click)="bsModalRef.hide()">Đóng</button>
+      <button type="button" class="btn btn-primary" (click)="save()">Lưu</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #templateDelete>
+  <div class="modal-header" style="padding: 5px; text-align:left;">
+    <button type="button" class="close" data-dismiss="modal" style="margin:3px 10px 0 0;" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h5 class="modal-title" style="font-size:20px">{{modalTitle}}</h5>
+  </div>
+  <div class="modal-body" style="overflow:hidden;" *ngIf="dataDelete">
+    <div class="col-md-12 no-padding">
+
+      <h4>Bạn có chắc chắn muốn xoá
+        <b>&quot;{{dataDelete.name}}&quot;</b>?</h4>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-white" data-dismiss="modal" (click)="bsModalRef.hide()">Đóng</button>
+    <button type="button" class="btn btn-danger" (click)="delete()">Xoá</button>
+  </div>
+</ng-template>
+<!--End Modal-->

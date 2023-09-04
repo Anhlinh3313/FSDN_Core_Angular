@@ -1,0 +1,343 @@
+<div class="row">
+    <div class="col-lg-12">
+        <ol class="ibox-title breadcrumb">
+            <li>
+                <a>{{parentPage}}</a>
+            </li>
+            <li class="active">
+                <strong>{{currentPage}}</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <!-- <div class="ibox-title">
+                <h5></h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                </div>
+            </div> -->
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <a *ngIf="isAdd" class="btn btn-primary" (click)="openModel(template)">
+                            <i class="fa fa-file-o"></i> Tạo mới</a>
+                    </div>
+                    <div class="col-sm-4">
+                    </div>
+                    <div class="col-sm-3 ">
+                        <div class="input-group pull-right">
+                            <!-- <input #filterGb type="text" placeholder="Nhập chuỗi cần tìm ..." class="input-sm form-control"> -->
+                            <input #filterGb type="text" placeholder="Nhập chuỗi cần tìm ..." class="input-sm form-control" (input)="table.filterGlobal($event.target.value, 'contains')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div>
+                            <!-- <p-dataTable [value]="listPage" [paginator]="true" rows="10" [responsive]="true" [rowsPerPageOptions]="[10,20,100]" [globalFilter]="filterGb"
+                                [lazy]="true" [totalRecords]="totalRecords" (onLazyLoad)="loadLazy($event)" sortField="name">
+                                <p-column field="name" header="Tên Menu" [sortable]="true"></p-column>
+                                <p-column field="code" header="Mã Menu" [sortable]="true"></p-column>
+                                <p-column field="aliasPath" header="Url" [sortable]="true"></p-column>
+                                <p-column field="parentPageId" header="Menu Cha" [sortable]="true"></p-column>
+                                <p-column field="modulePageId" header="Module" [sortable]="true"></p-column>
+                                <p-column field="pageOrder" header="Thứ Tự" [sortable]="true"></p-column>
+                                <p-column field="isAccess" header="isAccess" [sortable]="true">
+                                    <ng-template let-col let-data="rowData" pTemplate="body">
+                                        <div class="ui-g" style="width:250px;margin-bottom:10p">
+                                            <div class="ui-g-6">
+                                                <p-checkbox class="reason-checkbox" [ngModel]="data[col.field]" [disabled]="true" binary="true"></p-checkbox>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="isAdd" header="isAdd" [sortable]="true">
+                                    <ng-template let-col let-data="rowData" pTemplate="body">
+                                        <div class="ui-g" style="width:250px;margin-bottom:10p">
+                                            <div class="ui-g-6">
+                                                <p-checkbox class="reason-checkbox" [ngModel]="data[col.field]" [disabled]="true" binary="true"></p-checkbox>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="isEdit" header="isEdit" [sortable]="true">
+                                    <ng-template let-col let-data="rowData" pTemplate="body">
+                                        <div class="ui-g" style="width:250px;margin-bottom:10p">
+                                            <div class="ui-g-6">
+                                                <p-checkbox class="reason-checkbox" [ngModel]="data[col.field]" [disabled]="true" binary="true"></p-checkbox>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="isDelete" header="isDelete" [sortable]="true">
+                                    <ng-template let-col let-data="rowData" pTemplate="body">
+                                        <div class="ui-g" style="width:250px;margin-bottom:10p">
+                                            <div class="ui-g-6">
+                                                <p-checkbox class="reason-checkbox" [ngModel]="data[col.field]" [disabled]="true" binary="true"></p-checkbox>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="isEnabled" header="isEnabled" [sortable]="true">
+                                    <ng-template let-col let-data="rowData" pTemplate="body">
+                                        <div class="ui-g" style="width:250px;margin-bottom:10p">
+                                            <div class="ui-g-6">
+                                                <p-checkbox class="reason-checkbox" [ngModel]="data[col.field]" [disabled]="true" binary="true"></p-checkbox>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                                <p-column styleClass="col-button2">
+                                    <ng-template pTemplate="header">
+                                        <a class="btn btn-info" (click)="refresh()">
+                                            <i class="fa fa-refresh"></i>
+                                        </a>
+                                    </ng-template>
+                                    <ng-template let-data="rowData" pTemplate="body">
+                                        <a *ngIf="isEdit" class="btn btn-info" (click)="openModel(template, data)">
+                                            <i class="fa fa-paste"></i> Xem</a>
+                                        <a *ngIf="isDelete" class="btn btn-danger" (click)="openDeleteModel(templateDelete, data)">
+                                            <i class="fa fa-trash-o"></i>
+                                            <span class="bold">Xóa</span>
+                                        </a>
+                                    </ng-template>
+                                </p-column>
+                            </p-dataTable> -->
+                            <p-table #table [value]="listPage" [scrollable]="true" scrollHeight="700px" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]"
+                                [globalFilterFields]="colsTable">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="code">Mã
+                                            <p-sortIcon field="code"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="name">Tên
+                                            <p-sortIcon field="name"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="aliasPath">Url
+                                            <p-sortIcon field="aliasPath"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="parentPageId">Menu cha
+                                            <p-sortIcon field="parentPageId"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="modulePageId">Module
+                                            <p-sortIcon field="modulePageId"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="pageOrder">Thứ tư
+                                            <p-sortIcon field="pageOrder"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="isAccess">isAccess
+                                            <p-sortIcon field="isAccess"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="isAdd">isAdd
+                                            <p-sortIcon field="isAdd"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="isEdit">isEdit
+                                            <p-sortIcon field="isEdit"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="isDelete">isDelete
+                                            <p-sortIcon field="isDelete"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="isEnabled">isEnabled
+                                            <p-sortIcon field="isEnabled"></p-sortIcon>
+                                        </th>
+                                        <th class="col-button2">
+                                            <a class="btn btn-info" (click)="refresh(table)">
+                                                <i class="fa fa-refresh"></i>
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-Datas>
+                                    <tr>
+                                        <td>{{Datas.code}}</td>
+                                        <td>{{Datas.name}}</td>
+                                        <td style="word-wrap: break-word;">{{Datas.aliasPath}}</td>
+                                        <td>{{Datas.parentPageId}}</td>
+                                        <td>{{Datas.modulePageId}}</td>
+                                        <td>{{Datas.pageOrder}}</td>
+                                        <td>
+                                            <div class="ui-g" style="width:250px;margin-bottom:10p">
+                                                <div class="ui-g-6">
+                                                    <p-checkbox class="reason-checkbox" [ngModel]="Datas.isAccess" [disabled]="true" binary="true"></p-checkbox>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="ui-g" style="width:250px;margin-bottom:10p">
+                                                <div class="ui-g-6">
+                                                    <p-checkbox class="reason-checkbox" [ngModel]="Datas.isAdd" [disabled]="true" binary="true"></p-checkbox>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="ui-g" style="width:250px;margin-bottom:10p">
+                                                <div class="ui-g-6">
+                                                    <p-checkbox class="reason-checkbox" [ngModel]="Datas.isEdit" [disabled]="true" binary="true"></p-checkbox>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="ui-g" style="width:250px;margin-bottom:10p">
+                                                <div class="ui-g-6">
+                                                    <p-checkbox class="reason-checkbox" [ngModel]="Datas.isDelete" [disabled]="true" binary="true"></p-checkbox>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="ui-g" style="width:250px;margin-bottom:10p">
+                                                <div class="ui-g-6">
+                                                    <p-checkbox class="reason-checkbox" [ngModel]="Datas.isEnabled" [disabled]="true" binary="true"></p-checkbox>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="col-button2">
+                                            <a *ngIf="isEdit" class="btn btn-info" (click)="openModel(template, Datas)">
+                                                <i class="fa fa-paste"></i> Xem</a>
+                                            <a *ngIf="isDelete" class="btn btn-danger" (click)="openDeleteModel(templateDelete, Datas)">
+                                                <i class="fa fa-trash-o"></i>
+                                                <span class="bold">Xóa</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Start Modal-->
+<ng-template #template>
+    <style>
+    </style>
+    <div>
+        <div class="modal-header" style="padding: 5px; text-align:left;">
+            <button type="button" class="close" data-dismiss="modal" style="margin:3px 10px 0 0;" (click)="bsModalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title" style="font-size:20px">{{modalTitle}}</h5>
+        </div>
+        <div class="modal-body" style="overflow:auto;" *ngIf="data">
+            <div class="col-md-12 no-padding">
+                <div class="form-group">
+                    <label>Tên</label>
+                    <input type="text" placeholder="Nhập tên" class="input-sm form-control" id="name" (keyup)="nameChange()" [(ngModel)]="data.name"
+                        focus="true" />
+                </div>
+                <div class="form-group">
+                    <label>Mã</label>
+                    <input type="text" placeholder="Nhập mã" class="input-sm form-control" id="code" [(ngModel)]="data.code" />
+                </div>
+                <div class="form-group">
+                    <label>Đường dẫn(url)</label>
+                    <input type="text" placeholder="Nhập đường dẫn" class="input-sm form-control" id="name" [(ngModel)]="data.aliasPath" />
+                </div>
+
+                <div class="form-group col-md-4" style="padding-left:0px;">
+                    <label>Module</label>
+                    <!-- <p-dropdown [options]="optionModule" [style]="{'width':'150px','z-index':'1000'}" filter="true"></p-dropdown> -->
+                    <!-- <p-dropdown [options]="optionModule" [(ngModel)]="data.modulePageId" [style]="{'width':'150px','height':'26px'}" editable="true"
+                        placeholder="Chọn Module"></p-dropdown> -->
+                    <p-dropdown [options]="optionModule" [(ngModel)]="data.modulePageId" [style]="{'width':'150px'}" filter="true">
+                        <!-- <ng-template let-item pTemplate="selectedItem">
+                            <span style="vertical-align:middle">{{item.value}}</span>
+                        </ng-template>
+                        <ng-template let-page pTemplate="item">
+                            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                                <div style="font-size:14px;margin-top:4px">{{page.label}}</div>
+                            </div>
+                        </ng-template> -->
+                    </p-dropdown>
+                </div>
+
+                <div class="form-group col-md-4" style="padding-right:0px;">
+                    <label>Menu cha</label>
+                    <!-- <input type="number" placeholder="Nhập menu cha" class="input-sm form-control" id="name" [(ngModel)]="data.parentPageId"
+                    /> -->
+                    <!-- <p-dropdown [options]="selectedParentPage" [(ngModel)]="data.parentPageId" [style]="{'width':'150px','height':'26px'}" editable="true"
+                        placeholder="Chọn Module"></p-dropdown> -->
+                    <p-dropdown [options]="selectedParentPage" [(ngModel)]="data.parentPageId" [style]="{'width':'150px'}" filter="true">
+                        <!-- <ng-template let-item pTemplate="selectedItem">
+                            <span style="vertical-align:middle">{{item.value}}</span>
+                        </ng-template>
+                        <ng-template let-page pTemplate="item">
+                            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                                <div style="font-size:14px;margin-top:4px">{{page.label}}</div>
+                            </div>
+                        </ng-template> -->
+                    </p-dropdown>
+                </div>
+
+                <div class="form-group col-md-4" style="padding-right:0px;">
+                    <label>Thứ tự</label>
+                    <input type="number" placeholder="Nhập thứ tự hiển thị" class="input-sm form-control" id="pageOrder" [(ngModel)]="data.pageOrder"
+                    />
+                </div>
+                <div class="from-group col-md-4" style="padding-left:0px">
+                    <span>
+                        <p-checkbox label="isAccess" [(ngModel)]="data.isAccess" binary="true"></p-checkbox>
+                    </span>
+                </div>
+                <div class="from-group col-md-4" style="padding-right:0px">
+                    <span>
+                        <p-checkbox label="isAdd" [(ngModel)]="data.isAdd" binary="true"></p-checkbox>
+                    </span>
+                </div>
+                <div class="from-group col-md-4" style="padding-right:0px">
+                    <span>
+                        <p-checkbox label="isEdit" [(ngModel)]="data.isEdit" binary="true"></p-checkbox>
+                    </span>
+                </div>
+                <div class="from-group col-md-4" style="padding-left:0px">
+                    <span>
+                        <p-checkbox label="isDelete" [(ngModel)]="data.isDelete" binary="true"></p-checkbox>
+                    </span>
+                </div>
+                <div class="from-group col-md-4" style="padding-right:0px">
+                    <span>
+                        <p-checkbox label="isEnabled" [(ngModel)]="data.isEnabled" binary="true"></p-checkbox>
+                    </span>
+                </div>
+                <div class="from-group col-md-4" style="padding-right:0px">
+                    <span>
+                        <input type="text" placeholder="Icon" class="input-sm form-control" id="icon" [(ngModel)]="data.icon"/>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-white" data-dismiss="modal" (click)="bsModalRef.hide()">Đóng</button>
+            <button type="button" class="btn btn-primary" (click)="save()">Lưu</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #templateDelete>
+    <div class="modal-header" style="padding: 5px; text-align:left;">
+        <button type="button" class="close" data-dismiss="modal" style="margin:3px 10px 0 0;" (click)="bsModalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+    </div>
+    <div class="modal-body" style="overflow:hidden;" *ngIf="data">
+        <div class="col-md-12 no-padding">
+            <h4>Bạn có chắc chắn muốn xoá
+                <b>&quot;{{data.name}}&quot;</b>?</h4>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal" (click)="bsModalRef.hide()">Đóng</button>
+        <button type="button" class="btn btn-danger" (click)="delete()">Xoá</button>
+    </div>
+</ng-template>
+<!--End Modal-->

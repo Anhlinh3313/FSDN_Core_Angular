@@ -1,0 +1,213 @@
+<div class="row">
+  <div class="col-lg-12">
+      <ol class="ibox-title breadcrumb">
+          <li>
+              <a>{{parentPage}}</a>
+          </li>
+          <li class="active">
+              <strong>{{currentPage}}</strong>
+          </li>
+      </ol>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+          <!-- <div class="ibox-title">
+              <h5>{{currentPage}}</h5>
+              <div class="ibox-tools">
+                  <a class="collapse-link">
+                      <i class="fa fa-chevron-up"></i>
+                  </a>
+              </div>
+          </div> -->
+          <div class="ibox-content">
+              <div class="row">
+                  <div class="col-sm-3">
+                    <label>&nbsp;</label>
+                    <div class="form-group">
+                        <a *ngIf="isAdd" class="btn btn-primary" (click)="openModel(template)">
+                            <i class="fa fa-file-o"></i> Tạo mới</a>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                      <label>Tỉnh thành</label>
+                      <div class="form-group">
+                          <p-dropdown [options]="provineces" [(ngModel)]="selectedFilterProvince" [style]="{'width':'100%'}"
+                              filter="filter" autofocus tabindex="1" (onChange)="listDataStreet.filter($event.value, 'province.id', 'equals')">
+                          </p-dropdown>
+                      </div>
+                  </div>
+                  <div class="col-sm-2">
+                      <label>Quận huyện</label>
+                      <div class="form-group">
+                          <p-dropdown [options]="districts" [(ngModel)]="selectedFilterDistrict" [style]="{'width':'100%'}"
+                              filter="filter" autofocus tabindex="1" (onChange)="listDataStreet.filter($event.value, 'district.id', 'equals')">
+                          </p-dropdown>
+                      </div>
+                  </div>
+                  <div class="col-sm-2">
+                      <label>Phường xã</label>
+                      <div class="form-group">
+                          <p-dropdown [options]="wards" [(ngModel)]="selectedFilterWard" [style]="{'width':'100%'}"
+                              filter="filter" autofocus tabindex="1" (onChange)="listDataStreet.filter($event.value, 'ward.id', 'equals')">
+                          </p-dropdown>
+                      </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <label>&nbsp;</label>
+                    <div class="form-group">
+                        <div class="input-group pull-right">
+                            <!-- <input #filterGb type="text" placeholder="Nhập chuỗi cần tìm ..." class="input-sm form-control"> -->
+                            <input #filterGb type="text" placeholder="Nhập chuỗi cần tìm ..." class="input-sm form-control" (input)="listDataStreet.filterGlobal($event.target.value, 'contains')">
+                        </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+          <div class="ibox-content">
+              <div class="row">
+                  <div class="col-sm-12">
+                      <div>
+                          <!-- <p-dataTable [value]="listData" [paginator]="true" rows="10" [responsive]="true" [rowsPerPageOptions]="[5,10,20]" [globalFilter]="filterGb"
+                              [lazy]="true" [totalRecords]="totalRecords" (onLazyLoad)="loadLazy($event)" sortField="street.name">
+                              <p-column field="street.code" header="Mã Đường" [sortable]="true"></p-column>
+                              <p-column field="street.name" header="Tên Đường" [sortable]="true"></p-column>
+                              <p-column field="province.name" header="Tỉnh Thành" [sortable]="true"></p-column>
+                              <p-column field="district.name" header="Quận huyện" [sortable]="true"></p-column>
+                              <p-column field="ward.name" header="Phường Xã" [sortable]="true"></p-column>
+                              <p-column styleClass="col-button">
+                                  <ng-template pTemplate="header">
+                                      <a class="btn btn-info" (click)="refresh()">
+                                          <i class="fa fa-refresh"></i>
+                                      </a>
+                                  </ng-template>
+                                  <ng-template let-data="rowData" pTemplate="body">
+                                      <a *ngIf="isEdit" class="btn btn-info" (click)="openModel(template, data)">
+                                          <i class="fa fa-paste"></i> Xem</a>
+                                      <a *ngIf="isDelete" class="btn btn-danger" (click)="openDeleteModel(templateDelete, data)">
+                                          <i class="fa fa-trash-o"></i>
+                                          <span class="bold">Xóa</span>
+                                      </a>
+                                  </ng-template>
+                              </p-column>
+                          </p-dataTable> -->
+                          <p-table #listDataStreet [value]="listData" [scrollable]="true" scrollHeight="700px" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]"
+                            [globalFilterFields]="colsStreet">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="code">Mã
+                                            <p-sortIcon field="code"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="name">Tên
+                                            <p-sortIcon field="name"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="province.name">Tỉnh thành
+                                            <p-sortIcon field="district.name"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="district.name">Tỉnh thành
+                                            <p-sortIcon field="district.name"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="ward.name">Tỉnh thành
+                                            <p-sortIcon field="district.name"></p-sortIcon>
+                                        </th>
+                                        <th class="col-button2">
+                                            <a class="btn btn-info" (click)="refresh(listDataStreet)">
+                                                <i class="fa fa-refresh"></i>
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-Datas>
+                                    <tr>
+                                        <td>{{Datas.code}}</td>
+                                        <td>{{Datas.name}}</td>
+                                        <td>{{Datas.province.name}}</td>
+                                        <td>{{Datas.district.name}}</td>
+                                        <td>{{Datas.ward.name}}</td>
+                                        <td class="col-button2">
+                                            <!-- <a *ngIf="isEdit" class="btn btn-info" (click)="openModel(template, Datas)">
+                                                <i class="fa fa-paste"></i> Xem</a> -->
+                                            <a *ngIf="isDelete" class="btn btn-danger" (click)="openDeleteModel(templateDelete, Datas)">
+                                                <i class="fa fa-trash-o"></i>
+                                                <span class="bold">Xóa</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!--Start Modal-->
+<ng-template #template>
+  <div (keydown)="keyDownFunction($event)">
+      <div class="modal-header" style="padding: 5px; text-align:left;">
+          <button type="button" class="close" data-dismiss="modal" style="margin:3px 10px 0 0;" (click)="bsModalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">Close</span>
+          </button>
+          <h5 class="modal-title" style="font-size:20px">{{modalTitle}}</h5>
+      </div>
+      <div class="modal-body" style="overflow:hidden;">
+          <div class="col-md-12 no-padding">
+              <div *ngIf="isNew" class="form-group">
+                  <label>Nhập location</label>
+                  <input placeholder="Nhập location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="input-sm form-control"
+                  [id]="streetId" [(ngModel)]="txtAddress">
+              </div>
+              <div class="form-group">
+                  <label>Tên đường</label>
+                  <input disabled type="text" placeholder="Nhập tên đường" class="input-sm form-control" [(ngModel)]="streetName" focus="true" />
+              </div>
+              <div class="form-group">
+                  <label>Mã đường</label>
+                  <input disabled type="text" placeholder="Nhập mã đường" class="input-sm form-control" [(ngModel)]="streetCode" focus="true" />
+              </div>
+              <div class="form-group">
+                  <label>Tỉnh thành</label>
+                  <input disabled type="text" placeholder="Tỉnh thành" class="input-sm form-control" [(ngModel)]="selectedProvince" />
+              </div>
+              <div class="form-group">
+                  <label>Quận huyện</label>
+                  <input disabled type="text" placeholder="Quận huyện" class="input-sm form-control" [(ngModel)]="selectedDistrict" />
+              </div>
+              <div class="form-group">
+                  <label>Phường Xã</label>
+                  <input disabled type="text" placeholder="Phường xã" class="input-sm form-control" [(ngModel)]="selectedWard" />
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-white" data-dismiss="modal" (click)="bsModalRef.hide()">Đóng</button>
+          <button type="button" class="btn btn-primary" (click)="save()">Lưu</button>
+      </div>
+  </div>
+</ng-template>
+
+<ng-template #templateDelete>
+  <div class="modal-header" style="padding: 5px; text-align:left;">
+      <button type="button" class="close" data-dismiss="modal" style="margin:3px 10px 0 0;" (click)="bsModalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+      </button>
+  </div>
+  <div class="modal-body" style="overflow:hidden;" *ngIf="selectedData">
+      <div class="col-md-12 no-padding">
+          <h4>Bạn có chắc chắn muốn xoá
+              <b>&quot;{{selectedData.street?.name}}&quot;</b>?
+            </h4>
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-white" data-dismiss="modal" (click)="bsModalRef.hide()">Đóng</button>
+      <button type="button" class="btn btn-danger" (click)="delete()">Xoá</button>
+  </div>
+</ng-template>
+<!--End Modal-->

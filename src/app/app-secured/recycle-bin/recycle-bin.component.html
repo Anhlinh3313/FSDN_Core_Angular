@@ -1,0 +1,185 @@
+<div class="row">
+    <div class="col-lg-12">
+        <ol class="ibox-title breadcrumb">
+            <li class="active">
+                <strong>{{parentPage}}</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <!-- <div class="ibox-title">
+                <h5></h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                </div>
+            </div> -->
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label>Ngày tạo vận đơn</label>
+                            <div class="input-group" daterangepicker (selected)="selectedDate($event, mainInput)" (cancelDaterangepicker)="calendarEventsHandler($event)"
+                                (showDaterangepicker)="calendarEventsHandler($event)">
+                                <span class="form-control uneditable-input" name="daterange" style="height: 25px;">
+                                    <p style="margin-top: -3px">{{ mainInput.start | dateFormatNoTime }} - {{ mainInput.end | dateFormatNoTime }}
+                                    </p>
+                                </span>
+                                <span class="input-group-btn">
+                                    <a type="button" class="btn btn-default">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                    </div>
+                    <div class="col-sm-3 ">
+                        <div class="input-group pull-right">
+                            <input #filterGb type="text" placeholder="Nhập chuỗi cần tìm ..." class="input-sm form-control" (input)="table.filterGlobal($event.target.value, 'contains')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div>
+                            <p-table #table [value]="listDatas" [scrollable]="true" scrollHeight="700px" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]"
+                                [globalFilterFields]="colsTable">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th class="col-button2">
+                                            <a class="btn btn-info" (click)="refresh(table)">
+                                                <i class="fa fa-refresh"></i>
+                                            </a>
+                                        </th>
+                                        <th pSortableColumn="tableName">Tên bảng
+                                            <p-sortIcon field="tableName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="name">Tên tài liệu
+                                            <p-sortIcon field="name"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="code">Mã tài liệu
+                                            <p-sortIcon field="code"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="createdWhen">Thời gian xóa
+                                            <p-sortIcon field="createdWhen"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="createdByFullName">Họ tên người xóa
+                                            <p-sortIcon field="createdByFullName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="createdByUsername">Tên tài khoản xóa
+                                            <p-sortIcon field="createdByUsername"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="createdByCode">Mã tài khoản xóa
+                                            <p-sortIcon field="createdByCode"></p-sortIcon>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-DataRow>
+                                    <tr>
+                                        <td class="col-button2">
+                                            <a *ngIf="isEdit" class="btn btn-info" (click)="restore(DataRow.id)">
+                                                <i class="fa fa-undo"></i> Retore</a>
+                                            <a *ngIf="isDelete" class="btn btn-danger" (click)="emptyRecycleBin(DataRow, templateDelete)">
+                                                <i class="fa fa-trash-o"></i>
+                                                <span class="bold">Xóa</span>
+                                            </a>
+                                        </td>
+                                        <td>{{DataRow.tableName}}</td>
+                                        <td>{{DataRow.name}}</td>
+                                        <td>{{DataRow.code}}</td>
+                                        <td>{{DataRow.createdWhen}}</td>
+                                        <td style="word-wrap: break-word;">{{DataRow.createdByFullName}}</td>
+                                        <td>{{DataRow.createdByUsername}}</td>
+                                        <td>{{DataRow.createdByCode}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Start Modal-->
+<ng-template #template>
+    <style>
+    </style>
+    <div>
+        <div class="modal-header" style="padding: 5px; text-align:left;">
+            <button type="button" class="close" data-dismiss="modal" style="margin:3px 10px 0 0;">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title" style="font-size:20px"></h5>
+        </div>
+        <div class="modal-body" style="overflow:auto;">
+            <div class="col-md-12 no-padding">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-white" data-dismiss="modal">Đóng</button>
+            <button type="button" class="btn btn-primary">Lưu</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #templateDelete>
+    <div class="modal-header" style="padding: 5px; text-align:left;">
+        <button type="button" class="close" data-dismiss="modal" style="margin:3px 10px 0 0;" (click)="bsModalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+    </div>
+    <div class="modal-body" style="overflow:auto;" *ngIf="list.length > 0; else abc">
+        <div class="col-md-12 no-padding">
+            <h4>{{modalTitle}}</h4>
+            <div>
+                <p-table #table [value]="list" [scrollable]="true" scrollHeight="300px" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]"
+                    [globalFilterFields]="colsTable">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="STT">STT
+                                <p-sortIcon field="STT"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="foreignKeyTable">Đối tượng sử dụng
+                                <p-sortIcon field="foreignKeyTable"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="usingFK">Đang sử dụng
+                                <p-sortIcon field="usingFK"></p-sortIcon>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-DataRow let-rowIndex="rowIndex">
+                        <tr>
+                            <td style="text-align: center;">{{rowIndex + 1}}</td>
+                            <td style="text-align: center;">{{DataRow.foreignKeyTable}}</td>
+                            <td style="text-align: center;">{{DataRow.usingFK}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <h4 style="margin-top: 20px">Bạn có chắc chắn muốn xoá dữ liệu này không?</h4>
+        </div>
+    </div>
+    <ng-template #abc>
+        <div class="modal-body" style="overflow:auto;">
+            <div class="col-md-12 no-padding">
+                <h4>Bạn có chắc chắn muốn xoá dữ liệu này không?</h4>
+            </div>
+        </div>
+    </ng-template>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal" (click)="bsModalRef.hide()">Đóng</button>
+        <button type="button" class="btn btn-danger" (click)="delete()">Xoá</button>
+    </div>
+</ng-template>
+<!--End Modal-->

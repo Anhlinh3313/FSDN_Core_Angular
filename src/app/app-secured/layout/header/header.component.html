@@ -1,0 +1,61 @@
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <!-- <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+            <form role="search" class="navbar-form-custom" action="search_results.html">
+                <div class="form-group">
+                    <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                </div>
+            </form>
+        </div> -->
+        <ul class="nav navbar-top-links navbar-right">
+            <!-- <li>
+                <a [popover]="popTemplate" popoverTitle="Nhập số để gọi" placement="bottom">
+                    <i class="fa fa-phone"></i> Quay số nhanh
+                </a>
+            </li> -->
+            <!-- <li>
+                <a href="/" class="m-r-sm text-muted welcome-message"><img class="m-profile-small" src="assets/images/profile_small.jpg"/>Xin chào, {{userFullName}}!</a>
+            </li> -->
+            <li class="dropdown">
+                <a class="m-r-sm text-muted welcome-message dropdown-toggle" data-toggle="dropdown">
+                    <img class="m-profile-small" src="/assets/images/profile_small.jpg" /> {{userFullName}}
+                </a>
+                <ul class="dropdown-menu dropdown-account-info">
+                    <li >
+                        <a  href="/thay-doi-mat-khau">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <span class="nav-label">Thay đổi mật khẩu</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="http://dsc.vn/flashship/core/userguide.html" title="Hướng dẫn sử dụng phần mềm" target="_blank">
+                    <i class="fa fa-info-circle text-blue" style="font-size: 16px;"></i>
+                </a>
+            </li>
+            <li>
+                <a (click)="logOut()">
+                    <i class="fa fa-sign-out"></i> Đăng xuất
+                </a>
+            </li>
+            <!-- <li>
+                <a class="right-sidebar-toggle">
+                    <i class="fa fa-tasks"></i>
+                </a>
+            </li> -->
+        </ul>
+
+    </nav>
+</div>
+
+<ng-template #popTemplate>
+    <div class="input-group">
+        <input class="form-control input-sm" [(ngModel)]="phoneNumber" type="text" style="width:200px;">
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-primary" (click)="call()">Gọi
+            </button>
+        </span>
+    </div>
+</ng-template>

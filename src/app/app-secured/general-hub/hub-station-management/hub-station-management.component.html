@@ -1,0 +1,270 @@
+<div class="row">
+    <div class="col-lg-12">
+        <ol class="ibox-title breadcrumb">
+            <li>
+                <a>{{parentPage}}</a>
+            </li>
+            <li class="active">
+                <strong>{{currentPage}}</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <!-- <div class="ibox-title">
+                <h5>{{currentPage}}</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                </div>
+            </div> -->
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <a *ngIf="isAdd" class="btn btn-primary" (click)="openModel(template)">
+                            <i class="fa fa-file-o"></i> Tạo mới</a>
+                    </div>
+                    <div class="col-sm-4">
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group pull-right">
+                            <!-- <input #filterGb type="text" placeholder="Nhập chuỗi cần tìm ..." class="input-sm form-control"> -->
+                            <input #filterGb type="text" placeholder="Nhập chuỗi cần tìm ..." class="input-sm form-control"
+                                (input)="table.filterGlobal($event.target.value, 'contains')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div>
+                            <p-table #table [value]="listData" [scrollable]="true" scrollHeight="700px" [paginator]="true"
+                                [rows]="10" [rowsPerPageOptions]="[10,20,50]" [globalFilterFields]="colsTable">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="code">Mã
+                                            <p-sortIcon field="code"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="name">Tên
+                                            <p-sortIcon field="name"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="phoneNumber">Số điện thoại
+                                            <p-sortIcon field="phoneNumber"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="email">Email
+                                            <p-sortIcon field="email"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="fax">Fax
+                                            <p-sortIcon field="fax"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="centerHub.name">{{changeHubName.centerHubLongName}}
+                                            <p-sortIcon field="centerHub.name"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="poHub.name">{{changeHubName.poHubLongName}}
+                                            <p-sortIcon field="poHub.name"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="district.name">Quận huyện
+                                            <p-sortIcon field="district.name"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="ward.name">Phường xã
+                                            <p-sortIcon field="ward.name"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="radiusServe">Bán kính phục vụ
+                                            <p-sortIcon field="radiusServe"></p-sortIcon>
+                                        </th>
+                                        <th class="col-button2">
+                                            <a class="btn btn-info" (click)="refresh(table)">
+                                                <i class="fa fa-refresh"></i>
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-Datas>
+                                    <tr>
+                                        <td>{{Datas.code}}</td>
+                                        <td>{{Datas.name}}</td>
+                                        <td>{{Datas.phoneNumber}}</td>
+                                        <td style="word-wrap: break-word;">{{Datas.email}}</td>
+                                        <td>{{Datas.fax}}</td>
+                                        <td>{{Datas.centerHub?.name}}</td>
+                                        <td>{{Datas.poHub?.name}}</td>
+                                        <td>{{Datas.district?.name}}</td>
+                                        <td>{{Datas.ward?.name}}</td>
+                                        <td>{{Datas.radiusServe}}</td>
+                                        <td class="col-button2">
+                                            <a *ngIf="isEdit" class="btn btn-info" (click)="openModel(template, Datas)">
+                                                <i class="fa fa-paste"></i> Xem</a>
+                                            <a *ngIf="isDelete" class="btn btn-danger" (click)="openDeleteModel(templateDelete, Datas)">
+                                                <i class="fa fa-trash-o"></i>
+                                                <span class="bold">Xóa</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Start Modal-->
+<ng-template #template>
+    <div (keydown)="keyDownFunction($event)">
+        <div class="modal-header" style="padding: 5px; text-align:left;">
+            <button type="button" class="close" data-dismiss="modal" style="margin:3px 10px 0 0;" (click)="bsModalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title" style="font-size:20px">{{modalTitle}}</h5>
+        </div>
+        <div class="modal-body" style="overflow:visible;" *ngIf="data">
+            <div class="col-md-12 no-padding">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Mã</label>
+                            <input type="text" placeholder="Nhập mã" class="input-sm form-control" id="code"
+                                [(ngModel)]="data.code" focus="true" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Tên</label>
+                            <input type="text" placeholder="Nhập tên" class="input-sm form-control" id="name"
+                                [(ngModel)]="data.name" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Số điện thoại</label>
+                            <input type="text" placeholder="Nhập số điện thoại" class="input-sm form-control" id="phoneNumber"
+                                [(ngModel)]="data.phoneNumber" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="Nhập số email" class="input-sm form-control" id="email"
+                                [(ngModel)]="data.email" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Fax</label>
+                            <input type="text" placeholder="Nhập số fax" class="input-sm form-control" id="fax"
+                                [(ngModel)]="data.fax" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Bán kính phục vụ</label>
+                            <input type="text" placeholder="Nhập bán kính phục vụ" class="input-sm form-control" id="radiusServe"
+                                [(ngModel)]="data.radiusServe" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ</label>
+                    <input type="text" googleplace (setAddress)="setAddress($event)" placeholder="Nhập số địa chỉ"
+                        class="input-sm form-control" id="address" [(ngModel)]="data.address" />
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Tỉnh thành</label>
+                            <p-dropdown [options]="provinces" [(ngModel)]="selectedProvince" [style]="{'width':'100%'}"
+                                filter="true" (onChange)="changeProvince()" emptyFilterMessage="Không tìm thấy dữ liệu"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Quận huyện</label>
+                            <p-dropdown [options]="districts" [(ngModel)]="selectedDistrict" [style]="{'width':'100%'}"
+                                filter="true" (onChange)="changeDistrict()" emptyFilterMessage="Không tìm thấy dữ liệu"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Phường xã</label>
+                            <p-dropdown [options]="wards" [(ngModel)]="selectedWard" [style]="{'width':'100%'}" filter="true"
+                                emptyFilterMessage="Không tìm thấy dữ liệu"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ phụ</label>
+                    <input type="text" placeholder="Nhập số địa chỉ phụ" class="input-sm form-control" id="addressDisplay"
+                        [(ngModel)]="data.addressDisplay" />
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>{{changeHubName.centerHubLongName}}</label>
+                            <p-dropdown [options]="centerHubs" [(ngModel)]="selectedCenterHub" [style]="{'width':'100%'}"
+                                filter="true" (onChange)="changeCenterHub()" emptyFilterMessage="Không tìm thấy dữ liệu"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>{{changeHubName.poHubLongName}}</label>
+                            <p-dropdown [options]="poHubs" [(ngModel)]="selectedPoHub" [style]="{'width':'100%'}"
+                                filter="true" (onChange)="changePOHub()" emptyFilterMessage="Không tìm thấy dữ liệu"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Khu vực</label>
+                            <p-dropdown [options]="areacs" [(ngModel)]="selectedAreac" [style]="{'width':'100%'}"
+                                filter="true" emptyFilterMessage="Không tìm thấy dữ liệu"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label style="display:block">&nbsp;</label>
+                            <p-checkbox class="reason-checkbox" [(ngModel)]="data.hasAirPort" id="hasAirPort" binary="true"></p-checkbox>
+                            <label>Có dịch vụ bay</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-white" data-dismiss="modal" (click)="bsModalRef.hide()">Đóng</button>
+            <button type="button" class="btn btn-primary" (click)="save()">Lưu</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #templateDelete>
+    <div class="modal-header" style="padding: 5px; text-align:left;">
+        <button type="button" class="close" data-dismiss="modal" style="margin:3px 10px 0 0;" (click)="bsModalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+    </div>
+    <div class="modal-body" style="overflow: hidden;" *ngIf="data">
+        <div class="col-md-12 no-padding">
+            <h4>Bạn có chắc chắn muốn xoá
+                <b>&quot;{{data.name}}&quot;</b>?</h4>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal" (click)="bsModalRef.hide()">Đóng</button>
+        <button type="button" class="btn btn-danger" (click)="delete()">Xoá</button>
+    </div>
+</ng-template>
+<!--End Modal-->

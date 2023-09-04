@@ -1,0 +1,41 @@
+<nav class="navbar-default navbar-static-side" role="navigation" style="border-bottom: 1px solid #fff;">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu" style="margin-bottom: 35px;">
+            <li class="nav-header m-nav-header" [style.background]="styleBackGround" style="padding: 15px;">
+                <div class="dropdown profile-elemen m-profile-elemen">
+                    <span>
+                        <img alt="image" class="img-circle" [src]="logo" />
+                    </span>
+                </div>
+                
+                <div class="logo-element">
+                    IN+ 
+                </div>
+            </li>
+            <li id="daddy" *ngFor="let page of pages" [class]="page.active" (click)="selectNav(page)">
+                <a routerLink="{{page.aliasPath}}" style="background: #293846" *ngIf="!page.parentPageId && page.children.length === 0 && page.aliasPath == '/'">
+                    <i class="{{page.icon ? page.icon : 'fa fa-th-large'}}" aria-expanded="true"></i>
+                    <span class="nav-label">{{page.name}}</span>
+                </a>
+                <a routerLink="{{page.aliasPath}}" *ngIf="!page.parentPageId && page.children.length === 0 && page.id != 4 && page.id != 1">
+                    <i class="{{page.icon ? page.icon : 'fa fa-th-large'}}" aria-expanded="true"></i>
+                    <span class="nav-label">{{page.name}}</span>
+                </a>
+                <a *ngIf="!page.parentPageId && page.children.length > 0" (click)="showItems($event,page)">
+                    <i class="{{page.icon ? page.icon : 'fa fa-circle-o'}}" aria-expanded="true"></i>
+                    <span class="nav-label">{{page.name}}</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul [style.display]="page.display" class="nav nav-second-level collapse in" aria-expanded="true">
+                    <li id="son" *ngFor="let child of page.children">
+                        <a routerLink="{{child.aliasPath}}">
+                            <i class="{{child.icon ? child.icon : 'fa fa-square'}}" aria-expanded="true"></i>
+                            <span class="nav-label">{{child.name}}</span>
+                        </a>
+                    </li>
+                </ul>
+                
+            </li>
+        </ul>
+    </div>
+</nav>

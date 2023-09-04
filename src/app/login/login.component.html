@@ -1,0 +1,77 @@
+<div class="gray-bg" style="width:100%; height: 100%;" ng-controller="StoryController as vm">
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        <div>
+            <img [src]="logo" style="width:100%;" />
+            <div class="m-t">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Username" required="" [(ngModel)]="username"
+                        (keyup.enter)="login(template)">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" required="" [(ngModel)]="password"
+                        (keyup.enter)="login(template)">
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b" (click)="login(template)">Login</button>
+
+            </div>
+            <p class="m-t">
+                <small>{{ this.evName }} &copy; 2017</small>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!--Start Modal Reset PassWord-->
+<ng-template #template>
+    <!-- <div id="modal-form" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content"> -->
+    <div class="modal-header" style="padding: 5px; text-align:left;">
+        <!-- <button class="close" data-dismiss="modal" style="margin:3px 10px 0 0;" type="button" (click)="bsModalRef.hide()">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button> -->
+        <h5 class="modal-title" style="font-size:20px">{{modalTitle}}</h5>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="form-group">
+                    <label>Mật khẩu hiện tại</label>
+                    <div class="input-group m-b">
+                        <span class="input-group-addon">
+                            <i class="fa fa-key"></i>
+                        </span>
+                        <input type="password" #txtCurrentPassWord placeholder="Nhập mật khẩu hiện tại" [(ngModel)]="currentPassWord"
+                            class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu mới</label>
+                    <div class="input-group m-b">
+                        <span class="input-group-addon">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                        <input type="password" #txtNewPassWord placeholder="Nhập mật khẩu mới" [(ngModel)]="newPassWord"
+                            class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu xác thực</label>
+                    <div class="input-group m-b">
+                        <span class="input-group-addon">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                        <input type="password" #txtReNewPassWord placeholder="Nhập mật khẩu xác thực" [(ngModel)]="reNewPassWord"
+                            class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" (click)="firstResetPassWord()">Lưu</button>
+        <!-- <button class="btn btn-white" data-dismiss="modal" (click)="bsModalRef.hide()" type="button">Đóng</button> -->
+    </div>
+</ng-template>
+<!--End Modal-->

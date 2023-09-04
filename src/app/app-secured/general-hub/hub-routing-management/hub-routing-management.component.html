@@ -1,0 +1,290 @@
+<div class="row">
+    <div class="col-lg-12">
+        <ol class="ibox-title breadcrumb">
+            <li>
+                <a>{{parentPage}}</a>
+            </li>
+            <li class="active">
+                <strong>{{currentPage}}</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<!-- Begin Hub -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <!-- <div class="ibox-title">
+                <h5>{{currentPage}}</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                </div>
+            </div> -->
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>{{changeHubName.centerHubLongName}}</label>
+                            <!-- <select class="select-input form-control" [compareWith]="compareFn" [(ngModel)]="selectedCenterHub" (ngModelChange)="changeCenterHub()">
+                                <option *ngFor="let item of centerHubs" [ngValue]="item">{{item.name}}</option>
+                            </select> -->
+                            <p-dropdown [options]="centerHubs" [(ngModel)]="selectedCenterHub" [style]="{'width':'100%'}" filter="true" (onChange)="changeCenterHub()"
+                                emptyFilterMessage="Không tìm thấy dữ liệu"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>{{changeHubName.poHubLongName}}</label>
+                            <!-- <select class="select-input form-control" [compareWith]="compareFn" [(ngModel)]="selectedPoHub" (ngModelChange)="changePoHub()">
+                                <option *ngFor="let item of poHubs" [ngValue]="item">{{item.name}}</option>
+                            </select> -->
+                            <p-dropdown [options]="poHubs" [(ngModel)]="selectedPoHub" [style]="{'width':'100%'}" filter="true" (onChange)="changePoHub()"
+                                emptyFilterMessage="Không tìm thấy dữ liệu"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>{{changeHubName.stationHubLongName}}</label>
+                            <!-- <select class="select-input form-control" [compareWith]="compareFn" [(ngModel)]="selectedHub">
+                                <option *ngFor="let item of hubs" [ngValue]="item">{{item.name}}</option>
+                            </select> -->
+                            <p-dropdown [options]="hubs" [(ngModel)]="selectedHub" [style]="{'width':'100%'}" filter="true" (onChange)="dt.filter($event.value, 'hub.id', 'equals')"
+                                emptyFilterMessage="Không tìm thấy dữ liệu"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Hub -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Danh sách tuyến</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <a *ngIf="isAdd" class="btn btn-primary" (click)="openModel(template)">
+                            <i class="fa fa-file-o"></i> Tạo mới</a>
+                    </div>
+                    <div class="col-sm-4">
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group pull-right">
+                            <input #filterGb type="text" placeholder="Nhập chuỗi cần tìm ..." class="input-sm form-control" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div>
+                            <!-- <p-dataTable [value]="listData" [paginator]="true" rows="10" [responsive]="true" [rowsPerPageOptions]="[5,10,20]" [globalFilter]="filterGb">
+                                <p-column field="code" header="Mã" [sortable]="true"></p-column>
+                                <p-column field="name" header="Tên" [sortable]="true"></p-column>
+                                <p-column field="hub.name" header="Tên trạm" [sortable]="true"></p-column> -->
+                            <!-- <p-column field="user.fullName" header="Nhân viên đi tuyến" [sortable]="true"></p-column> -->
+                            <!-- <p-column styleClass="col-button2">
+                                    <ng-template pTemplate="header">
+                                        <a class="btn btn-info" (click)="refresh()">
+                                            <i class="fa fa-refresh"></i>
+                                        </a>
+                                    </ng-template>
+                                    <ng-template let-data="rowData" pTemplate="body">
+                                        <a *ngIf="isEdit" class="btn btn-info" (click)="openModel(template, data)">
+                                            <i class="fa fa-paste"></i> Xem</a>
+                                        <a *ngIf="isDelete" class="btn btn-danger" (click)="openDeleteModel(templateDelete, data)">
+                                            <i class="fa fa-trash-o"></i>
+                                            <span class="bold">Xóa</span>
+                                        </a>
+                                    </ng-template>
+                                </p-column>
+                            </p-dataTable> -->
+
+                            <p-table #dt [value]="listData" [columns]="cols" [paginator]="true" rows="20" [responsive]="true" [rowsPerPageOptions]="[5, 10, 20, 50, 100]"
+                                [globalFilterFields]="cols" sortField="name">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th *ngFor="let col of cols" [pSortableColumn]="col.field" [hidden]="col.hidden">
+                                            {{col.header}}
+                                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                                        </th>
+                                        <th class="col-button-2">
+                                            <a class="btn btn-info" (click)="refresh()">
+                                                <i class="fa fa-refresh"></i>
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData>
+                                    <tr>
+                                        <td>{{rowData.code}}</td>
+                                        <td>{{rowData.name}}</td>
+                                        <td [hidden]="true">{{rowData.hub?.id}}</td>
+                                        <td>{{rowData.hub?.name}}</td>
+                                        <td>{{rowData.user?.fullName}}</td>
+                                        <td class="text-center">
+                                            <a *ngIf="isEdit" class="btn btn-info" (click)="openModel(template, rowData)">
+                                                <i class="fa fa-paste"></i> Xem</a>
+                                            <a *ngIf="isDelete" class="btn btn-danger" (click)="openDeleteModel(templateDelete, rowData)">
+                                                <i class="fa fa-trash-o"></i>
+                                                <span class="bold">Xóa</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage" let-columns>
+                                    <tr>
+                                        <td colspan="5">
+                                            Không tìm thấy dữ liệu
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Start Modal-->
+<ng-template #template>
+    <div (keydown)="keyDownFunction($event)">
+        <div class="modal-header" style="padding: 5px; text-align:left;">
+            <button type="button" class="close" data-dismiss="modal" style="margin:3px 10px 0 0;" (click)="bsModalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h5 class="modal-title" style="font-size:20px">{{modalTitle}}</h5>
+        </div>
+        <div class="modal-body" style="overflow: scroll;" *ngIf="data">
+            <div class="col-md-12 no-padding">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Mã</label>
+                            <input type="text" placeholder="Nhập mã" class="input-sm form-control" id="code" [(ngModel)]="data.code" focus="true" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Tên</label>
+                            <input type="text" placeholder="Nhập tên" class="input-sm form-control" id="name" [(ngModel)]="data.name" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Nhân viên đi tuyến</label>
+                            <!-- <select class="select-input form-control" [compareWith]="compareFn" [(ngModel)]="selectedRider">
+                                <option>-- Chọn nhân viên --</option>
+                                <option *ngFor="let item of riders" [ngValue]="item">{{item.code}} - {{item.fullName}}</option>
+                            </select> -->
+                            <p-dropdown *ngIf="isEnableRider" [options]="riders" [(ngModel)]="selectedRider" filter="true" [style]="{'width':'200px'}"></p-dropdown>
+                            <br />
+                            <span *ngIf="!isEnableRider">{{riderName}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>{{changeHubName.stationHubLongName}}</label>
+                            <!-- <select class="select-input form-control" [compareWith]="compareFn" [(ngModel)]="selectedStationHub" (ngModelChange)="changeStationHub()">
+                                <option *ngFor="let item of stationHubs" [ngValue]="item">{{item.name}}</option>
+                            </select> -->
+                            <p-dropdown [options]="stationHubs" [(ngModel)]="selectedStationHub" [style]="{'width':'100%'}" (onChange)="changeStationHub()"
+                                filter="true"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6"></div>
+                                <div class="col-sm-6">
+                                    <div class="input-group pull-right" style="padding-top: 10px;">
+                                        <input #filterWardGb type="text" placeholder="Nhập chuỗi cần tìm ..." class="input-sm form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div>
+                                <p-dataTable [value]="hubRoutingWards" [responsive]="true" [(selection)]="selectedHubRoutingWards" dataKey="id" scrollable="true"
+                                    scrollHeight="550px" [globalFilter]="filterWardGb" sortField="wardName">
+                                    <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+                                    <p-column field="wardName" header="Phường xã" [sortable]="true"></p-column>
+                                    <p-column field="districtName" header="Quận huyện" [sortable]="true"></p-column>
+                                    <p-column field="provinceName" header="Tỉnh thành" [sortable]="true"></p-column>
+                                </p-dataTable>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6" style="padding-left: 0px;">
+                                    <div class="col-sm-6" style="padding-top: 10px;">
+                                        <a class="btn btn-info" (click)="onViewStreet(selectedHubRoutingWards)">
+                                            Xem tuyến đường</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="input-group pull-right" style="padding-top: 10px;">
+                                        <input #filterStreetdGb type="text" placeholder="Nhập chuỗi cần tìm ..." class="input-sm form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div>
+                                <p-dataTable [value]="hubRoutingStreet" [responsive]="true" dataKey="id" scrollable="true" scrollHeight="550px" [globalFilter]="filterStreetdGb"
+                                    [(selection)]="selectedHubRoutingStreets" sortField="streetName">
+                                    <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+                                    <p-column field="streetName" header="Đường" [sortable]="true"></p-column>
+                                    <p-column field="wardName" header="Phường xã" [sortable]="true"></p-column>
+                                    <p-column field="districtName" header="Quận huyện" [sortable]="true"></p-column>
+                                    <p-column field="provinceName" header="Tỉnh thành" [sortable]="true"></p-column>
+                                </p-dataTable>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-white" data-dismiss="modal" (click)="bsModalRef.hide()">Đóng</button>
+            <button type="button" *ngIf="isEnableRider" class="btn btn-primary" (click)="save()">Lưu</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #templateDelete>
+    <div class="modal-header" style="padding: 5px; text-align:left;">
+        <button type="button" class="close" data-dismiss="modal" style="margin:3px 10px 0 0;" (click)="bsModalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+    </div>
+    <div class="modal-body" style="overflow:hidden;" *ngIf="data">
+        <div class="col-md-12 no-padding">
+            <h4>Bạn có chắc chắn muốn xoá
+                <b>&quot;{{data.name}}&quot;</b>?</h4>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal" (click)="bsModalRef.hide()">Đóng</button>
+        <button type="button" class="btn btn-danger" (click)="delete()">Xoá</button>
+    </div>
+</ng-template>
+<!--End Modal-->
